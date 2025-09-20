@@ -382,17 +382,6 @@ To contribute to this framework:
 4. Test thoroughly
 5. Submit a pull request
 
-## License
-
-This project is open source and available under the MIT License.
-
-## Support
-
-For questions or issues:
-- Create an issue in the GitHub repository
-- Check the k6 community forum
-- Review the k6 documentation
-
 ---
 
 Happy testing! This framework should give you a solid foundation for performance testing your applications. Start with the smoke tests and gradually work your way up to more comprehensive testing scenarios.
