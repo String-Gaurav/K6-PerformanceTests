@@ -1,0 +1,34 @@
+{
+  "name": "k6-performance-framework",
+  "version": "1.0.0",
+  "description": "Comprehensive k6 performance testing framework with API and UI tests",
+  "main": "index.js",
+  "scripts": {
+    "test:api:smoke": "k6 run scenarios/api-smoke-test.js",
+    "test:api:load": "k6 run scenarios/api-load-test.js",
+    "test:api:stress": "k6 run scenarios/api-stress-test.js",
+    "test:ui:smoke": "k6 run scenarios/ui-smoke-test.js",
+    "test:ui:load": "k6 run scenarios/ui-load-test.js",
+    "test:all": "k6 run scenarios/combined-test.js",
+    "test:api:auth": "k6 run tests/api/auth-test.js",
+    "test:api:rest": "k6 run tests/api/rest-api-test.js",
+    "test:api:graphql": "k6 run tests/api/graphql-test.js",
+    "test:ui:pages": "k6 run tests/ui/page-load-test.js",
+    "test:ui:interactions": "k6 run tests/ui/user-interaction-test.js"
+  },
+  "keywords": [
+    "k6",
+    "performance-testing",
+    "load-testing",
+    "api-testing",
+    "ui-testing"
+  ],
+  "author": "Performance Testing Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/k6": "^0.47.0"
+  },
+  "dependencies": {
+    "k6": "^0.47.0"
+  }
+}
