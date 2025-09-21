@@ -134,3 +134,13 @@ export const SCENARIOS = {
     tags: { test_type: 'spike' }
   }
 };
+
+// AI Configuration
+export const AI_SETTINGS = {
+  ENABLED: __ENV.AI_ENABLED === 'true',
+  GEMINI_API_KEY: __ENV.GEMINI_API_KEY || '',
+  INTELLIGENT_ANALYSIS: __ENV.AI_ANALYSIS === 'true',
+  ADAPTIVE_TESTING: __ENV.AI_ADAPTIVE === 'true',
+  SMART_VALIDATION: __ENV.AI_VALIDATION === 'true',
+  TEST_GENERATION: __ENV.AI_TEST_GENERATION === 'true'
+};
