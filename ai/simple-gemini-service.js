@@ -6,7 +6,7 @@
 import http from 'k6/http';
 
 export class GeminiAIService {
-  constructor(apiKey, model = 'gemini-1.5-flash') {
+  constructor(apiKey, model = 'gemini-1.5-pro') {
     this.apiKey = apiKey;
     this.model = model;
     this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta';

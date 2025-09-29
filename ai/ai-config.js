@@ -7,7 +7,7 @@ export const AI_CONFIG = {
   // Gemini AI Configuration
   GEMINI: {
     API_KEY: __ENV.GEMINI_API_KEY || '',
-    MODEL: 'gemini-1.5-flash',
+    MODEL: 'gemini-1.5-pro',
     BASE_URL: 'https://generativelanguage.googleapis.com/v1beta',
     TIMEOUT: 30000, // 30 seconds
     MAX_RETRIES: 2
