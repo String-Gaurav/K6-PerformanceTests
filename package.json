@@ -1,7 +1,7 @@
 {
   "name": "k6-performance-framework",
   "version": "1.0.0",
-  "description": "Comprehensive k6 performance testing framework with API and UI tests",
+  "description": "A k6 performance testing framework I built to make load testing easier and more effective",
   "main": "index.js",
   "scripts": {
     "test:api:smoke": "k6 run scenarios/api-smoke-test.js",
@@ -23,7 +23,7 @@
     "api-testing",
     "ui-testing"
   ],
-  "author": "Performance Testing Team",
+  "author": "Saurabh",
   "license": "MIT",
   "devDependencies": {
     "@types/k6": "^0.47.0"

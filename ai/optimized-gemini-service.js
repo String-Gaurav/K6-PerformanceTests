@@ -1,6 +1,7 @@
 /**
  * Optimized Gemini AI Service for k6 Performance Testing
- * Efficient AI usage with cost optimization and smart caching
+ * I made this version because the original one was making too many API calls
+ * This one is smarter about caching and costs way less to run
  */
 
 import http from 'k6/http';
@@ -16,17 +17,18 @@ export class OptimizedGeminiAIService {
     this.cacheHits = 0;
     this.cacheMisses = 0;
     
-    // Validate API key
+    // Make sure we have a valid API key
     if (!apiKey || apiKey.length < 10) {
       throw new Error('Invalid Gemini API key provided');
     }
   }
 
   /**
-   * Optimized API call with better error handling and cost control
+   * Makes an API call but tries to be smart about it
+   * Includes better error handling and keeps costs down
    */
   async callGeminiAPI(prompt, maxTokens = 512) {
-    // Check request limit
+    // Don't make too many API calls - it gets expensive
     if (this.requestCount >= this.maxRequestsPerTest) {
       console.log('AI: Request limit reached, using cached results');
       return this.getCachedResponse(prompt);
@@ -44,10 +46,10 @@ export class OptimizedGeminiAIService {
         }]
       }],
       generationConfig: {
-        temperature: 0.3, // Lower temperature for more consistent results
-        topK: 20,         // Reduced for cost efficiency
-        topP: 0.8,        // Reduced for cost efficiency
-        maxOutputTokens: maxTokens // Dynamic token limit
+        temperature: 0.3, // Keep it consistent
+        topK: 20,         // Less randomness = cheaper
+        topP: 0.8,        // Less randomness = cheaper
+        maxOutputTokens: maxTokens // Use only what we need
       }
     };
 
@@ -55,7 +57,7 @@ export class OptimizedGeminiAIService {
       const response = http.post(
         `${this.baseUrl}/models/${this.model}:generateContent`,
         JSON.stringify(payload),
-        { headers: headers, timeout: '15s' } // Reduced timeout
+        { headers: headers, timeout: '15s' } // Don't wait too long
       );
 
       this.requestCount++;
@@ -68,11 +70,11 @@ export class OptimizedGeminiAIService {
       const data = JSON.parse(response.body);
       const result = data.candidates[0].content.parts[0].text;
       
-      // Cache the result
+      // Save this result so we don't have to ask again
       this.cache.set(this.getCacheKey(prompt), {
         result: result,
         timestamp: Date.now(),
-        ttl: 1800000 // 30 minutes TTL
+        ttl: 1800000 // Cache for 30 minutes
       });
       
       return result;
@@ -83,17 +85,19 @@ export class OptimizedGeminiAIService {
   }
 
   /**
-   * Smart cache key generation
+   * Creates a cache key that makes sense
+   * Uses the first few words of the prompt to keep it simple
    */
   getCacheKey(prompt) {
-    // Create a hash-like key from prompt content
+    // Just use the first few words to create a simple key
     const words = prompt.split(' ').slice(0, 10).join('_');
     const type = prompt.includes('threshold') ? 'threshold' : 'analysis';
     return `${type}_${words}`;
   }
 
   /**
-   * Get cached response if available and not expired
+   * Checks if we have a cached response that's still good
+   * Saves us from making another expensive API call
    */
   getCachedResponse(prompt) {
     const cacheKey = this.getCacheKey(prompt);
@@ -109,7 +113,8 @@ export class OptimizedGeminiAIService {
   }
 
   /**
-   * Fallback response when AI is unavailable
+   * When the AI isn't working, we give a basic response instead
+   * Better than breaking the whole test
    */
   getFallbackResponse(prompt) {
     if (prompt.includes('threshold')) {
@@ -127,7 +132,8 @@ export class OptimizedGeminiAIService {
   }
 
   /**
-   * Combined analysis and recommendations in single API call
+   * Does both analysis and recommendations in one API call
+   * Saves money and time compared to making two separate calls
    */
   async analyzePerformanceWithRecommendations(testResults) {
     const cacheKey = `combined_${JSON.stringify(testResults)}`;
@@ -167,7 +173,7 @@ export class OptimizedGeminiAIService {
     try {
       const response = await this.callGeminiAPI(prompt, 800); // Reduced token limit
       
-      // Try to parse JSON response
+      // Try to parse the JSON response
       const jsonMatch = response.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         const result = JSON.parse(jsonMatch[0]);
@@ -179,7 +185,7 @@ export class OptimizedGeminiAIService {
         return result;
       }
       
-      // Fallback if JSON parsing fails
+      // If we can't parse it, use the fallback
       return this.getFallbackAnalysis(testResults);
     } catch (error) {
       console.error('AI analysis failed:', error.message);
@@ -188,7 +194,8 @@ export class OptimizedGeminiAIService {
   }
 
   /**
-   * Fallback analysis when AI fails
+   * Basic analysis when the AI isn't working
+   * Gives you something useful instead of nothing
    */
   getFallbackAnalysis(testResults) {
     const errorRate = testResults.errorRate || 0;
@@ -210,7 +217,8 @@ export class OptimizedGeminiAIService {
   }
 
   /**
-   * Get usage statistics
+   * Shows you how the AI service is performing
+   * Useful for debugging and cost tracking
    */
   getUsageStats() {
     return {
@@ -223,7 +231,7 @@ export class OptimizedGeminiAIService {
   }
 
   /**
-   * Reset counters for new test
+   * Resets everything for a fresh test run
    */
   resetCounters() {
     this.requestCount = 0;

@@ -1,6 +1,7 @@
 /**
- * Practical Gemini AI Service for k6 Performance Testing
- * Focused on solving real performance testing problems with AI
+ * Gemini AI Service for k6 Performance Testing
+ * I built this to add some smart analysis to performance tests
+ * It's pretty straightforward - just sends data to Gemini and gets insights back
  */
 
 import http from 'k6/http';
@@ -14,7 +15,8 @@ export class GeminiAIService {
   }
 
   /**
-   * Call Gemini API with a simple prompt
+   * Makes a call to the Gemini API
+   * Nothing fancy here, just sends the prompt and gets a response back
    */
   async callGeminiAPI(prompt) {
     const headers = {
@@ -55,7 +57,8 @@ export class GeminiAIService {
   }
 
   /**
-   * Analyze performance test results and provide actionable insights
+   * Looks at your test results and tries to figure out what's going on
+   * Returns some insights that might actually be helpful
    */
   async analyzePerformanceResults(testResults) {
     // Check cache first
@@ -103,7 +106,8 @@ export class GeminiAIService {
   }
 
   /**
-   * Generate intelligent threshold recommendations based on performance data
+   * Suggests some k6 thresholds based on your performance data
+   * Sometimes it's hard to know what thresholds to set, so this helps
    */
   async generateThresholdRecommendations(performanceData) {
     const prompt = `
@@ -153,7 +157,8 @@ export class GeminiAIService {
   }
 
   /**
-   * Generate realistic test data based on application context
+   * Creates some realistic test data for you
+   * Because coming up with test data is boring and time-consuming
    */
   async generateTestData(dataSchema, context = {}) {
     const prompt = `
@@ -179,7 +184,7 @@ export class GeminiAIService {
     }
   }
 
-  // Helper methods for extracting actionable items from AI responses
+  // Helper methods - these just parse the AI response and extract useful stuff
   extractActionItems(response) {
     const actionItems = [];
     const lines = response.split('\n');
@@ -193,7 +198,7 @@ export class GeminiAIService {
     return actionItems.slice(0, 3); // Return top 3 actionable items
   }
 
-  // Fallback methods for when AI is unavailable
+  // Fallback methods - when the AI isn't working, we use these instead
   getFallbackTestData(dataSchema) {
     return [
       { 

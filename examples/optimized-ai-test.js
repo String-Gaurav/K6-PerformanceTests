@@ -1,6 +1,7 @@
 /**
  * Optimized AI-Enhanced Performance Testing
- * Demonstrates efficient AI usage with cost optimization
+ * This is the smarter version that doesn't waste money on API calls
+ * I built this after realizing the original was making too many requests
  */
 
 import http from 'k6/http';
@@ -8,7 +9,7 @@ import { check, sleep } from 'k6';
 import { OptimizedGeminiAIService } from '../ai/optimized-gemini-service.js';
 import { BASE_CONFIG } from '../config/base-config.js';
 
-// Initialize optimized AI service
+// Set up the AI service if we have an API key
 const GEMINI_API_KEY = __ENV.GEMINI_API_KEY || '';
 const aiService = GEMINI_API_KEY ? new OptimizedGeminiAIService(GEMINI_API_KEY) : null;
 

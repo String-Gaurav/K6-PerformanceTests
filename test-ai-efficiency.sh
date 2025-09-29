@@ -1,25 +1,26 @@
 #!/bin/bash
 
 # AI Efficiency Test Script for k6 Performance Framework
-# This script tests AI usage efficiency and provides cost analysis
+# I wrote this to check if the AI features are actually worth using
+# It runs some tests and shows you the cost/benefit
 
 echo "K6 AI Efficiency Test"
 echo "========================"
 echo ""
 
-# Check if k6 is installed
+# Make sure k6 is installed
 if ! command -v k6 &> /dev/null; then
-    echo "k6 is not installed. Please install k6 first:"
+    echo "k6 is not installed. You'll need to install it first:"
     echo "   macOS: brew install k6"
     echo "   Windows: choco install k6"
     echo "   Linux: See https://k6.io/docs/getting-started/installation/"
     exit 1
 fi
 
-# Check if API key is set
+# Check if we have an API key
 if [ -z "$GEMINI_API_KEY" ]; then
     echo "GEMINI_API_KEY environment variable is not set"
-    echo "   Please run: export GEMINI_API_KEY='your_api_key_here'"
+    echo "   You'll need to run: export GEMINI_API_KEY='your_api_key_here'"
     exit 1
 fi
 
